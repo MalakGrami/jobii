@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User CV Upload</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            text-align: center;
+        }
+
+        .job-match {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .job-match p {
+            margin-bottom: 5px;
+        }
+
+        .status-badge {
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .already-calculated {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .newly-calculated {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">✨ Jobii</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/user/users/upload-cv/">💾 Upload CV</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:8000/company/company/create-job/">💼 Create Job</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="container">
+        <h1>Upload Your CV 📄</h1>
+
+        <form action="/user/upload-cv/" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="cv" class="form-label">Upload CV:</label>
+                <input type="file" name="cv" id="cv" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload 📥</button>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if cv_path %}
+            <div class="alert alert-success mt-3">
+                <h2>Your CV is uploaded successfully 🎉</h2>
+                <a href="{{ cv_path }}" class="btn btn-success" target="_blank">View your uploaded CV</a>
+            </div>
+        {% endif %}
+
+        {% if match_results %}
+            <h2 class="mt-4">Match Results with Available Jobs 📊</h2>
+            <div class="list-group">
+                {% for match in match_results %}
+                    <div class="job-match">
+                        <p><strong>Job ID:</strong> {{ match.job_id }}</p>
+                        <p><strong>Job Description:</strong> {{ match.job_description }}</p>
+                        <p><strong>Skills Match:</strong> {{ match.skills_match }}%</p>
+                        <p><strong>Education Match:</strong> {{ match.education_match }}%</p>
+                        <p><strong>Experience Match:</strong> {{ match.experience_match }}%</p>
+                        <p><strong>Overall Match:</strong> {{ match.overall_match }}%</p>
+                        {% if match.status == "Already calculated" %}
+                            <span class="status-badge already-calculated">Already calculated 🔄</span>
+                        {% else %}
+                            <span class="status-badge newly-calculated">Newly calculated 🌟</span>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-3">No jobs found 🚫</div>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybBogGzC9JkQ1ZNUVsB103yhB6iI2Fb4ybZx2ynoaNmPf6yB"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-ho+pMuTt1VRj7Q6gVQN3JDEN8fZ69G9AsI4f+2n97fgR5z5uJ8fM2V7ezT2wOg8"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.pdb
+*.egg-info
+*.eggs
+dist
+build
+*.whl
+*.db
+
+# Virtual environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# FastAPI specific
+instance/
+app.db
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# NLP related
+data/
+cv_files/
+*.model
+*.h5
+*.bin
+*.pt
+*.pkl
+*.json
+*.csv
+
+# Docker
+docker-compose.override.yml
+Dockerfile*
+
+# .env files
+.venv
+.venv.local
+.venv.*.local
+
+# Tests and coverage
+.coverage
+.coverage.*
+nosetests.xml
+pytest-debug.log
+*.tox
+*.nox
+*.coverage
+*.hypothesis
+*.pytest_cache
+*.pytest_coverage
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db

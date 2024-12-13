@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Job Creation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .job-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .match-list {
+            list-style: none;
+            padding: 0;
+        }
+        .match-list li {
+            background-color: #ffffff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .match-list li a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .match-list li a:hover {
+            text-decoration: underline;
+        }
+        .match-info {
+            font-size: 0.9rem;
+        }
+        .emoji {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">✨ Jobii</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/user/users/upload-cv/">💾 Upload CV</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/company/company/create-job/">💼 Create Job</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="form-container">
+            <h1 class="mb-4">💼 Create a Job</h1>
+
+            <form action="/company/create-job/" method="post">
+                <div class="mb-3">
+                    <label for="job_description" class="form-label">Job Description</label>
+                    <textarea name="job_description" id="job_description" class="form-control" rows="4" required placeholder="📝 Write the job description here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">🌟 Create Job</button>
+            </form>
+        </div>
+    
+        {% if job %}
+            <div class="job-success mt-5">
+                <h2>🎉 Job Created Successfully!</h2>
+                <p><strong>Job ID:</strong> {{ job.id }}</p>
+                <p><strong>Job Description:</strong> {{ job.job_description }}</p>
+            </div>
+
+            <h2 class="mt-4">🔍 Matching CVs</h2>
+            <ul class="match-list">
+                {% for match in match_results %}
+                    <li>
+                        <div>
+                            <a href="{{ match.cv_path }}" target="_blank">CV 🔗</a>
+                            <div class="match-info">
+                                <strong>🔧 Skills Match:</strong> {{ match.skills_match }}%<br>
+                                <strong>📖 Education Match:</strong> {{ match.education_match }}%<br>
+                                <strong>🎓 Experience Match:</strong> {{ match.experience_match }}%<br>
+                                <strong>🌟 Overall Match:</strong> {{ match.match_percent }}%
+                            </div>
+                        </div>
+                        {% if match.status == "Already calculated" %}
+                            <span class="badge bg-secondary">Already Calculated</span>
+                        {% else %}
+                            <span class="badge bg-success">Newly Calculated</span>
+                        {% endif %}
+                    </li>
+                {% else %}
+                    <li class="text-center">🙁 No matches found.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybP0VIRxVBrHFLUPT8UOhhyLaPxxbx6v9gimJ7g3blszKNB6N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-QlUCDpES1Kn0qIMr2G9b9tK80wBzO5r7h8QAbwRZjF7VJfgKUuh2yJryF9zrPaOa" crossorigin="anonymous"></script>
+</body>
+</html>
