@@ -38,7 +38,6 @@ app.db
 
 # NLP related
 data/
-cv_files/
 *.model
 *.h5
 *.bin
